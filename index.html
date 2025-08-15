@@ -1,33 +1,414 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Test Page</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Liam Nicholson • Chess-Themed Portfolio</title>
+  <meta name="description" content="Portfolio and projects of Liam Nicholson. Chess-themed, responsive, and GitHub Pages ready." />
+  <meta name="color-scheme" content="dark light" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #333;
-      text-align: center;
-      padding-top: 50px;
+    /* ---------- CSS RESET ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    img, svg { display: block; max-width: 100%; }
+
+    /* ---------- THEME ---------- */
+    :root {
+      --bg: #0f1115;
+      --panel: #151823;
+      --text: #e9eef5;
+      --muted: #9fb0c3;
+      --accent: #9ad26a; /* light green */
+      --accent-2: #7aa2ff; /* blue */
+      --border: #232a3a;
+      --square-dark: #1b2131;
+      --square-light: #2a334a;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
     }
-    h1 {
-      color: #007acc;
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --text: #0e1420;
+        --muted: #4b5a6b;
+        --accent: #2e7d32;
+        --accent-2: #1a56db;
+        --border: #e6ebf3;
+        --square-dark: #dfe7f4;
+        --square-light: #ffffff;
+        --shadow: 0 10px 28px rgba(3,16,46,.12);
+      }
     }
-    p {
-      font-size: 1.2rem;
+
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ---------- CHESSBOARD BACKDROP ---------- */
+    .board-backdrop {
+      position: fixed; inset: 0; z-index: -1; opacity: .16;
+      background-image:
+        linear-gradient(45deg, var(--square-dark) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--square-dark) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--square-dark) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--square-dark) 75%);
+      background-size: 40px 40px; /* square size */
+      background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
     }
+
+    /* ---------- LAYOUT ---------- */
+    .container { width: min(1100px, 92vw); margin: 0 auto; padding: 24px; }
+    header {
+      position: sticky; top: 0; backdrop-filter: blur(6px);
+      background: color-mix(in oklab, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--border); z-index: 10;
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .2px; }
+    .brand svg { width: 28px; height: 28px; }
+
+    .nav a { color: var(--text); opacity: .9; padding: 10px 12px; border-radius: 10px; }
+    .nav a:hover { background: var(--panel); opacity: 1; text-decoration: none; }
+
+    .nav-list { display: flex; gap: 6px; align-items: center; }
+    .btn { border: 1px solid var(--border); background: var(--panel); color: var(--text); padding: 10px 14px; border-radius: 12px; box-shadow: var(--shadow); display: inline-flex; gap: 8px; align-items: center; }
+    .btn:hover { transform: translateY(-1px); }
+
+    /* ---------- HERO ---------- */
+    .hero { padding: 56px 0 32px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: center; }
+    .hero-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
+    .kicker { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-weight: 600; letter-spacing: .4px; text-transform: uppercase; font-size: .8rem; }
+    .title { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.15; margin: 10px 0 8px; }
+    .lead { color: var(--muted); font-size: clamp(1rem, 2vw, 1.15rem); }
+
+    .hero-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .piece-card { aspect-ratio: 1; border-radius: var(--radius); border: 1px solid var(--border); display: grid; place-items: center; background:
+      radial-gradient(80% 60% at 50% 30%, color-mix(in oklab, var(--panel) 70%, transparent) 0, transparent 70%),
+      linear-gradient(to bottom right, color-mix(in oklab, var(--panel) 96%, transparent), color-mix(in oklab, var(--panel) 86%, transparent));
+    }
+    .piece-card svg { width: 56%; height: 56%; opacity: .95; }
+
+    /* ---------- SECTIONS ---------- */
+    section { padding: 40px 0; }
+    .section-title { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; margin-bottom: 16px; }
+    .section-title svg { width: 22px; height: 22px; opacity: .9; }
+
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+
+    .about { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .about ul { margin: 0; padding-left: 18px; }
+
+    .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .chip { border: 1px solid var(--border); background: color-mix(in oklab, var(--panel) 90%, transparent); border-radius: 999px; padding: 8px 12px; font-size: .95rem; text-align: center; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(180deg, color-mix(in oklab, var(--panel) 96%, transparent) 0%, color-mix(in oklab, var(--panel) 88%, transparent) 100%); padding: 18px; display: grid; gap: 10px; }
+    .card h3 { margin: 0; font-size: 1.1rem; }
+    .card p { margin: 0; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: .8rem; border: 1px solid var(--border); padding: 4px 8px; border-radius: 8px; color: var(--muted); }
+
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .filter-btn { cursor: pointer; border: 1px solid var(--border); background: var(--panel); color: var(--text); padding: 8px 12px; border-radius: 10px; }
+    .filter-btn.active { outline: 2px solid var(--accent-2); }
+
+    .resume { display: grid; grid-template-columns: 1fr .8fr; gap: 20px; align-items: start; }
+    .resume .btn { justify-self: start; }
+
+    .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    form { display: grid; gap: 10px; }
+    input, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: color-mix(in oklab, var(--panel) 92%, transparent); color: var(--text); }
+
+    footer { padding: 40px 0 60px; color: var(--muted); font-size: .95rem; }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+      .about, .resume, .contact { grid-template-columns: 1fr; }
+      .skills { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .skills { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .nav-list { display: none; }
+    }
+
+    /* ---------- UTILS ---------- */
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .muted { color: var(--muted); }
+    .divider { height: 1px; background: var(--border); margin: 16px 0; }
   </style>
 </head>
 <body>
-  <h1>Hello from GitHub Pages!</h1>
-  <p>If you can see this, your site is live 🚀</p>
-  <p>URL: <em id="url"></em></p>
+  <div class="board-backdrop" aria-hidden="true"></div>
+
+  <!-- Header / Nav -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Home">
+        <!-- Knight Icon -->
+        <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path fill="currentColor" d="M7 21h10v-2H7v2Zm10-4H7V9.5c0-.9.36-1.76 1-2.39l3.37-3.26a.75.75 0 0 1 1.05 1.07L10.5 8.02l.64 1.28h2.61a3.75 3.75 0 0 1 3.75 3.75V17Z"/></svg>
+        <span>Liam Nicholson</span>
+      </a>
+      <nav class="nav-list" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#resume">Résumé</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button id="themeToggle" class="btn" aria-label="Toggle theme">🌓 Theme</button>
+    </div>
+  </header>
+
+  <main id="top" class="container">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-card">
+        <div class="kicker">♞ Checkmate your first impression</div>
+        <h1 id="hero-title" class="title">Hi, I’m Liam — a CS student focused on ML, CV, and systems.</h1>
+        <p class="lead">I build performant, human-centered solutions: from knowledge graph RAG to multi-sensor fusion in CARLA. I like clean APIs, robust infra, and turning ideas into shipped features.</p>
+        <div class="row" style="margin-top:14px">
+          <a class="btn" href="#projects">View Projects</a>
+          <a class="btn" href="#contact">Get in Touch</a>
+        </div>
+      </div>
+      <div class="hero-grid" aria-hidden="true">
+        <div class="piece-card" title="King">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11 7V5H9V3h2V1h2v2h2v2h-2v2h-2Zm-5 14h12v-2H6v2Zm12-4H6v-3.5A3.5 3.5 0 0 1 9.5 10H14a4 4 0 1 1 4 4v3Z"/></svg>
+        </div>
+        <div class="piece-card" title="Queen">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 21h10v-2H7v2Zm10-4H7a6 6 0 0 1 10-4.47A6 6 0 0 1 17 17Zm-7.5-9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3Zm7 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3ZM12 10a2 2 0 1 1 0-4a2 2 0 0 1 0 4Z"/></svg>
+        </div>
+        <div class="piece-card" title="Bishop">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 21h10v-2H7v2Zm5-8a3 3 0 1 1 0-6a3 3 0 0 1 0 6Zm0-10a2 2 0 1 1 0 4a2 2 0 0 1 0-4Zm5 14H7a5 5 0 0 1 10 0Z"/></svg>
+        </div>
+        <div class="piece-card" title="Knight">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 21h10v-2H7v2Zm10-4H7V9.5c0-.9.36-1.76 1-2.39l3.37-3.26a.75.75 0 0 1 1.05 1.07L10.5 8.02l.64 1.28h2.61a3.75 3.75 0 0 1 3.75 3.75V17Z"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l2.09 6.26H20l-5.17 3.76L16.91 18L12 14.6 7.09 18l2.08-5.98L4 8.26h5.91L12 2Z"/></svg>
+        <h2>About</h2>
+      </div>
+      <div class="about">
+        <div class="panel">
+          <p>I’m a soon-to-be CS graduate (Aug 2025) focusing on machine learning and computer vision. Recent work includes multi-camera fusion in CARLA (0.9.15), LiDAR-RGBD alignment, and NodeRAG-style knowledge graphs. I enjoy systems problems, latency wins, and cleanly-documented repos.</p>
+          <ul>
+            <li>Interests: ML systems, perception, routing protocols, chess960</li>
+            <li>Values: clarity, benchmarks, reproducibility</li>
+            <li>Location: Fairfax / DC area</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3 style="margin-top:0">Highlights</h3>
+          <ul>
+            <li>Built a projection-based LiDAR→camera colorizer with occlusion-aware selection</li>
+            <li>Implemented DVR/LSR simulators; debugged convergence & link failures</li>
+            <li>Published tools for RAG over knowledge graphs (NodeRAG variant)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 3h18v2H3V3Zm2 4h14v2H5V7Zm-2 4h18v2H3v-2Zm2 4h14v2H5v-2Zm-2 4h18v2H3v-2Z"/></svg>
+        <h2>Skills</h2>
+      </div>
+      <div class="skills">
+        <div class="chip">Python • NumPy • PyTorch</div>
+        <div class="chip">OpenCV • Open3D</div>
+        <div class="chip">CARLA • ROS basics</div>
+        <div class="chip">Networking • TCP/OSPF/NAT</div>
+        <div class="chip">SQL • Relational calculus</div>
+        <div class="chip">GitHub Actions • Pages</div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l8 4v12l-8 4l-8-4V6l8-4Zm0 2.18L6 6.47v.06l6 3l6-3v-.06l-6-2.29ZM6 9.03V18l6 3v-8.97l-6-3Zm12 0l-6 3V21l6-3V9.03Z"/></svg>
+        <h2>Projects</h2>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter projects by tag">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="ml">ML/CV</button>
+        <button class="filter-btn" data-filter="systems">Systems</button>
+        <button class="filter-btn" data-filter="networking">Networking</button>
+      </div>
+
+      <div class="projects-grid" id="projectGrid">
+        <!-- Project Card 1 -->
+        <article class="card" data-tags="ml cv carla" tabindex="0">
+          <h3>LiDAR-RGBD Fusion in CARLA</h3>
+          <p>Projection-based fusion selecting closest-depth camera; occlusion-aware coloring; Z-forward convention.</p>
+          <div class="tags"><span class="tag">ML/CV</span><span class="tag">CARLA</span><span class="tag">Open3D</span></div>
+          <div class="row">
+            <a class="btn" href="#" aria-label="View repo for LiDAR-RGBD Fusion">Repo</a>
+            <a class="btn" href="#" aria-label="Read write-up for LiDAR-RGBD Fusion">Write-up</a>
+          </div>
+        </article>
+
+        <!-- Project Card 2 -->
+        <article class="card" data-tags="systems rag graph" tabindex="0">
+          <h3>NodeRAG-Style Knowledge Graph RAG</h3>
+          <p>Graph-indexed retrieval with typed relations, query planning, and transparent provenance for long-context QA.</p>
+          <div class="tags"><span class="tag">Systems</span><span class="tag">RAG</span><span class="tag">Graphs</span></div>
+          <div class="row">
+            <a class="btn" href="#">Repo</a>
+            <a class="btn" href="#">Demo</a>
+          </div>
+        </article>
+
+        <!-- Project Card 3 -->
+        <article class="card" data-tags="networking systems" tabindex="0">
+          <h3>DVR / LSR Simulators</h3>
+          <p>Distance-vector and link-state routing, failure injection, and convergence metrics with visual trace export.</p>
+          <div class="tags"><span class="tag">Networking</span><span class="tag">Systems</span></div>
+          <div class="row">
+            <a class="btn" href="#">Repo</a>
+            <a class="btn" href="#">Docs</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Resume -->
+    <section id="resume">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h4v2H8V8Z"/></svg>
+        <h2>Résumé</h2>
+      </div>
+      <div class="resume">
+        <div class="panel">
+          <p class="muted">One-page PDF recommended. Place <code>resume.pdf</code> in your repo root and this button will work on GitHub Pages.</p>
+          <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Download Résumé (PDF)</a>
+          <div class="divider"></div>
+          <h3 style="margin:0 0 6px">Quick Facts</h3>
+          <ul>
+            <li>B.S. CS (Machine Learning) — Expected Aug 2025</li>
+            <li>Focus: ML/CV, networking protocols, systems</li>
+            <li>Location: Fairfax, VA • Open to rel./hybrid</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3 style="margin-top:0">Contact Cards</h3>
+          <p class="muted">Add your links below:</p>
+          <div class="row">
+            <a class="btn" href="#">GitHub</a>
+            <a class="btn" href="#">LinkedIn</a>
+            <a class="btn" href="mailto:liam@example.com">Email</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm-1.4 3L12 11L5.4 7h13.2ZM4 18V8.25l8 4.75l8-4.75V18H4Z"/></svg>
+        <h2>Contact</h2>
+      </div>
+      <div class="contact">
+        <div class="panel">
+          <form id="contactForm" action="mailto:liam@example.com" method="post" enctype="text/plain">
+            <label>
+              Name
+              <input name="name" type="text" placeholder="Your name" required />
+            </label>
+            <label>
+              Email
+              <input name="email" type="email" placeholder="you@example.com" required />
+            </label>
+            <label>
+              Message
+              <textarea name="message" rows="5" placeholder="Let’s collaborate…" required></textarea>
+            </label>
+            <button class="btn" type="submit">Send</button>
+          </form>
+        </div>
+        <div class="panel">
+          <h3 style="margin-top:0">Open to opportunities</h3>
+          <p class="muted">I’m especially interested in roles touching ML systems, perception, or networking. If it ships and has measurable impact, I’m in.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="row" style="justify-content: space-between">
+        <div>© <span id="year"></span> Liam Nicholson</div>
+        <div class="muted">Built with ♥ and GitHub Pages • Theme: Chess</div>
+      </div>
+    </div>
+  </footer>
 
   <script>
-    // Show the current URL
-    document.getElementById("url").textContent = window.location.href;
+    // Theme toggle
+    const toggleBtn = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const THEME_KEY = 'theme-preference';
+
+    function setTheme(theme) {
+      if (theme === 'light') {
+        root.style.colorScheme = 'light';
+        root.dataset.theme = 'light';
+      } else {
+        root.style.colorScheme = 'dark';
+        root.dataset.theme = 'dark';
+      }
+      localStorage.setItem(THEME_KEY, theme);
+    }
+    function initTheme() {
+      const saved = localStorage.getItem(THEME_KEY);
+      const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      setTheme(saved || (prefersLight ? 'light' : 'dark'));
+    }
+    toggleBtn.addEventListener('click', () => {
+      const current = localStorage.getItem(THEME_KEY) || (root.dataset.theme || 'dark');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+    initTheme();
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple project filtering
+    const grid = document.getElementById('projectGrid');
+    const filters = document.querySelectorAll('.filter-btn');
+    filters.forEach(btn => btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      [...grid.children].forEach(card => {
+        if (filter === 'all') { card.style.display = ''; return; }
+        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+        card.style.display = tags.includes(filter) ? '' : 'none';
+      });
+    }));
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if (id.length > 1) {
+          e.preventDefault();
+          document.querySelector(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
   </script>
 </body>
 </html>
