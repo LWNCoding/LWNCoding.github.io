@@ -69,6 +69,8 @@
     .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .2px; }
     .brand svg { width: 28px; height: 28px; }
 
+    .brand .icon { font-size: 28px; line-height: 1; color: var(--accent-2); display: inline-block; transform: translateY(1px); font-family: "Segoe UI Symbol","Noto Sans Symbols","Symbola","DejaVu Sans",ui-sans-serif,system-ui; }
+
     .nav a { color: var(--text); opacity: .9; padding: 10px 12px; border-radius: 10px; }
     .nav a:hover { background: var(--panel); opacity: 1; text-decoration: none; }
 
@@ -149,10 +151,7 @@
   <header>
     <div class="container nav">
       <a class="brand" href="#top" aria-label="Home">
-        <!-- Knight Icon -->
-        <svg viewBox="0 0 24 24" role="img" aria-hidden="true" aria-label="Knight">
-            <path fill="currentColor" d="M19 22H5v-2h4v-5.31c-1.39-.31-2.5-1.64-2.5-3.19 0-.85.32-1.62.84-2.22l3.05-3.53c.35-.39.84-.58 1.32-.5.79.13 1.41.82 1.41 1.63V8h1.38A3.5 3.5 0 0 1 18 11.5V20h1v2z"/>
-        </svg>
+        <span class="icon" aria-hidden="true">♞</span>
         <span>Liam Nicholson</span>
       </a>
       <nav class="nav-list" aria-label="Primary">
