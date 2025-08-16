@@ -66,14 +66,26 @@
       border-bottom: 1px solid var(--border); z-index: 10;
     }
     .nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .2px; }
+    .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        letter-spacing: .2px;
+        padding: 6px 10px;        /* defines the clickable box height */
+        border-radius: 12px;
+    }
     .brand .icon {
-      font-size: 28px;
-      line-height: 1;
-      color: var(--accent-2);
-      display: inline-block;
-      transform: translateY(-2px); /* align emoji with text baseline */
-      font-family: "Segoe UI Symbol","Noto Sans Symbols","Symbola","DejaVu Sans",ui-sans-serif,system-ui;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;              /* icon box size */
+        height: 28px;
+        line-height: 1;
+        font-size: 20px;          /* glyph size inside the box */
+        color: var(--accent-2);
+        transform: none;          /* no manual nudge needed */
+        font-family: "Segoe UI Symbol","Noto Sans Symbols","Symbola","DejaVu Sans",ui-sans-serif,system-ui;
     }
 
     .nav a { color: var(--text); opacity: .9; padding: 10px 12px; border-radius: 10px; }
