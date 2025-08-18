@@ -3,433 +3,358 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Liam Nicholson • Chess-Themed Portfolio</title>
-  <meta name="description" content="Portfolio and projects of Liam Nicholson. Chess-themed, responsive, and GitHub Pages ready." />
+  <title>Portfolio - Liam Nicholson</title>
+  <meta name="description" content="A chess-themed portfolio and résumé site for a computer science professional." />
   <meta name="color-scheme" content="dark light" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%E2%99%9E%3C/text%3E%3C/svg%3E" />
   <style>
-    /* ---------- CSS RESET ---------- */
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    img, svg { display: block; max-width: 100%; }
-
-    /* ---------- THEME ---------- */
-    :root {
-      --bg: #0f1115;
-      --panel: #151823;
-      --text: #e9eef5;
-      --muted: #9fb0c3;
-      --accent: #9ad26a; /* light green */
-      --accent-2: #7aa2ff; /* blue */
-      --border: #232a3a;
-      --square-dark: #1b2131;
-      --square-light: #2a334a;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 16px;
-    }
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #f5f7fb;
-        --panel: #ffffff;
-        --text: #0e1420;
-        --muted: #4b5a6b;
-        --accent: #2e7d32;
-        --accent-2: #1a56db;
-        --border: #e6ebf3;
-        --square-dark: #dfe7f4;
-        --square-light: #ffffff;
-        --shadow: 0 10px 28px rgba(3,16,46,.12);
-      }
+    :root{
+      --bg: #0f1116;
+      --bg-2: #0b0d12;
+      --text: #e7e9ee;
+      --muted: #9aa3b2;
+      --accent: #9b87f5; /* lavender */
+      --accent-2:#68ddab; /* mint */
+      --card: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --grid: 56px; /* chess square size */
     }
 
-    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; background: var(--bg); color: var(--text); line-height: 1.6; }
-
-    a { color: var(--accent-2); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* ---------- CHESSBOARD BACKDROP ---------- */
-    .board-backdrop {
-      position: fixed; inset: 0; z-index: -1; opacity: .16;
-      background-image:
-        linear-gradient(45deg, var(--square-dark) 25%, transparent 25%),
-        linear-gradient(-45deg, var(--square-dark) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, var(--square-dark) 75%),
-        linear-gradient(-45deg, transparent 75%, var(--square-dark) 75%);
-      background-size: 40px 40px; /* square size */
-      background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+    /* Light theme */
+    .light{
+      --bg: #fafbff;
+      --bg-2: #f2f4fb;
+      --text: #0e1016;
+      --muted: #5b6575;
+      --card: rgba(0,0,0,0.04);
+      --card-border: rgba(0,0,0,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
-    /* ---------- LAYOUT ---------- */
-    .container { width: min(1100px, 92vw); margin: 0 auto; padding: 24px; }
-    header {
-      position: sticky; top: 0; backdrop-filter: blur(6px);
-      background: color-mix(in oklab, var(--bg) 80%, transparent);
-      border-bottom: 1px solid var(--border); z-index: 10;
-    }
-    .nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 700;
-        letter-spacing: .2px;
-        padding: 6px 10px;        /* defines the clickable box height */
-        border-radius: 12px;
-    }
-    .brand .icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 28px;              /* icon box size */
-        height: 28px;
-        line-height: 1;
-        font-size: 20px;          /* glyph size inside the box */
-        color: var(--accent-2);
-        transform: none;          /* no manual nudge needed */
-        font-family: "Segoe UI Symbol","Noto Sans Symbols","Symbola","DejaVu Sans",ui-sans-serif,system-ui;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text); background: var(--bg); overflow-x:hidden;
     }
 
-    .nav a { color: var(--text); opacity: .9; padding: 10px 12px; border-radius: 10px; }
-    .nav a:hover { background: var(--panel); opacity: 1; text-decoration: none; }
-
-    .nav-list { display: flex; gap: 6px; align-items: center; }
-    .btn { border: 1px solid var(--border); background: var(--panel); color: var(--text); padding: 10px 14px; border-radius: 12px; box-shadow: var(--shadow); display: inline-flex; gap: 8px; align-items: center; }
-    .btn:hover { transform: translateY(-1px); }
-
-    /* ---------- HERO ---------- */
-    .hero { padding: 56px 0 32px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: center; }
-    .hero-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
-    .kicker { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-weight: 600; letter-spacing: .4px; text-transform: uppercase; font-size: .8rem; }
-    .title { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.15; margin: 10px 0 8px; }
-    .lead { color: var(--muted); font-size: clamp(1rem, 2vw, 1.15rem); }
-
-    .hero-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .piece-card { aspect-ratio: 1; border-radius: var(--radius); border: 1px solid var(--border); display: grid; place-items: center; background:
-      radial-gradient(80% 60% at 50% 30%, color-mix(in oklab, var(--panel) 70%, transparent) 0, transparent 70%),
-      linear-gradient(to bottom right, color-mix(in oklab, var(--panel) 96%, transparent), color-mix(in oklab, var(--panel) 86%, transparent));
+    /* Subtle animated chessboard background */
+    .bg-chess{
+      position: fixed; inset:0; z-index: -1; opacity: .18; filter: contrast(105%) saturate(105%);
+      background:
+        linear-gradient(45deg, var(--bg-2) 25%, transparent 25%) calc(var(--grid)/-2) calc(var(--grid)/-2) / var(--grid) var(--grid),
+        linear-gradient(-45deg, var(--bg-2) 25%, transparent 25%) 0 0 / var(--grid) var(--grid),
+        linear-gradient(45deg, transparent 75%, var(--bg-2) 75%) 0 0 / var(--grid) var(--grid),
+        linear-gradient(-45deg, transparent 75%, var(--bg-2) 75%) calc(var(--grid)/-2) calc(var(--grid)/-2) / var(--grid) var(--grid);
+      animation: drift 22s linear infinite;
     }
-    .piece-card svg { width: 56%; height: 56%; opacity: .95; }
+    @keyframes drift { to { background-position: 200px 200px, 0 0, 0 0, -200px -200px; } }
 
-    /* ---------- SECTIONS ---------- */
-    section { padding: 40px 0; }
-    .section-title { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; margin-bottom: 16px; }
-    .section-title svg { width: 22px; height: 22px; opacity: .9; }
-
-    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
-
-    .about { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .about ul { margin: 0; padding-left: 18px; }
-
-    .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .chip { border: 1px solid var(--border); background: color-mix(in oklab, var(--panel) 90%, transparent); border-radius: 999px; padding: 8px 12px; font-size: .95rem; text-align: center; }
-
-    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .card { border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(180deg, color-mix(in oklab, var(--panel) 96%, transparent) 0%, color-mix(in oklab, var(--panel) 88%, transparent) 100%); padding: 18px; display: grid; gap: 10px; }
-    .card h3 { margin: 0; font-size: 1.1rem; }
-    .card p { margin: 0; color: var(--muted); }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag { font-size: .8rem; border: 1px solid var(--border); padding: 4px 8px; border-radius: 8px; color: var(--muted); }
-
-    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-    .filter-btn { cursor: pointer; border: 1px solid var(--border); background: var(--panel); color: var(--text); padding: 8px 12px; border-radius: 10px; }
-    .filter-btn.active { outline: 2px solid var(--accent-2); }
-
-    .resume { display: grid; grid-template-columns: 1fr .8fr; gap: 20px; align-items: start; }
-    .resume .btn { justify-self: start; }
-
-    .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    form { display: grid; gap: 10px; }
-    input, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: color-mix(in oklab, var(--panel) 92%, transparent); color: var(--text); }
-
-    footer { padding: 40px 0 60px; color: var(--muted); font-size: .95rem; }
-
-    /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 980px) {
-      .hero { grid-template-columns: 1fr; }
-      .about, .resume, .contact { grid-template-columns: 1fr; }
-      .skills { grid-template-columns: repeat(2, 1fr); }
-      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    header{
+      position: sticky; top:0; backdrop-filter: blur(10px);
+      background: color-mix(in oklab, var(--bg) 82%, transparent);
+      border-bottom: 1px solid var(--card-border); z-index: 10;
     }
-    @media (max-width: 640px) {
-      .skills { grid-template-columns: 1fr; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .nav-list { display: none; }
+    .nav{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      max-width:1100px; margin:0 auto; padding:14px 20px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px}
+    .brand svg{width:34px; height:34px}
+    .brand span{font-size:18px}
+    nav a{color:var(--text); text-decoration:none; opacity:.85; padding:8px 12px; border-radius:12px;}
+    nav a:hover{background:var(--card); opacity:1}
+    .spacer{flex:1}
+
+    .theme-toggle{
+      appearance:none; border:1px solid var(--card-border); background:var(--card);
+      padding:8px 12px; border-radius:12px; color:var(--text); cursor:pointer; box-shadow: var(--shadow);
     }
 
-    /* ---------- UTILS ---------- */
-    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .muted { color: var(--muted); }
-    .divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .container{max-width:1100px; margin:0 auto; padding:24px}
+    .hero{display:grid; grid-template-columns: 1.2fr 1fr; gap:28px; align-items:center; padding:44px 0}
+    .card{background:var(--card); border:1px solid var(--card-border); border-radius: var(--radius); box-shadow: var(--shadow)}
+    .hero .card{padding:28px}
+    h1{font-size: clamp(28px, 4vw, 44px); line-height:1.1; margin:0 0 12px}
+    .subtitle{color:var(--muted); font-size: clamp(14px, 1.7vw, 18px)}
+
+    .badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+    .badge{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--card-border); background: color-mix(in oklab, var(--card) 70%, transparent);}
+
+    .cta{display:flex; gap:12px; margin-top:22px}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px; border:1px solid var(--card-border); text-decoration:none; color:var(--text); font-weight:600}
+    .btn.primary{background: linear-gradient(135deg, var(--accent), var(--accent-2)); color:#0a0b0f}
+    .btn:hover{transform: translateY(-1px)}
+
+    /* Sections */
+    section{margin:60px 0}
+    section h2{font-size:24px; margin:0 0 16px}
+
+    .grid{
+      display:grid; gap:16px; grid-template-columns: repeat(12, 1fr);
+    }
+    .col-6{grid-column: span 6}
+    .col-4{grid-column: span 4}
+    .col-12{grid-column: span 12}
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+      .col-6, .col-4, .col-12{grid-column: 1 / -1}
+    }
+
+    .project{padding:18px; display:flex; flex-direction:column; gap:10px}
+    .project h3{margin:0; font-size:18px}
+    .project p{margin:0; color:var(--muted)}
+    .project .meta{display:flex; gap:8px; flex-wrap:wrap; margin-top:auto}
+
+    .timeline{position:relative; padding-left:24px}
+    .timeline::before{content:""; position:absolute; left:8px; top:6px; bottom:6px; width:2px; background:var(--card-border)}
+    .move{position:relative; margin:0 0 14px; padding:10px 14px; border-radius:12px; background:var(--card); border:1px solid var(--card-border)}
+    .move::before{content:"♞"; position:absolute; left:-24px; top:8px; opacity:.9}
+    .move small{color:var(--muted)}
+
+    .skills{display:flex; flex-wrap:wrap; gap:10px}
+    .chip{padding:8px 10px; border-radius:10px; border:1px solid var(--card-border); background: var(--card); font-size:13px}
+
+    footer{border-top:1px solid var(--card-border); margin-top:60px; padding:24px 0; color:var(--muted)}
+    .footer-grid{display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap}
+
+    /* Accessible link focus */
+    a:focus-visible, button:focus-visible{ outline: 2px solid var(--accent); outline-offset:2px }
+
+    /* Skills grid */
+    .skills-grid{
+    display:grid; gap:16px; grid-template-columns: repeat(12, 1fr);
+    }
+    .skills-card{ padding:18px; }
+    .skills-card h3{ margin:0 0 10px; font-size:16px }
+    .skills-list{ display:flex; flex-wrap:wrap; gap:10px }
+    @media (max-width: 900px){
+    .skills-grid .col-4{ grid-column: 1 / -1; }
+    }
   </style>
 </head>
 <body>
-  <div class="board-backdrop" aria-hidden="true"></div>
+  <div class="bg-chess" aria-hidden="true"></div>
 
-  <!-- Header / Nav -->
   <header>
-    <div class="container nav">
-      <a class="brand" href="#top" aria-label="Home">
-        <!-- Knight Emoji -->
-        <span class="icon" aria-hidden="true">♞</span>
-        <span>Liam Nicholson</span>
-      </a>
-      <nav class="nav-list" aria-label="Primary">
+    <div class="nav">
+      <nav class="spacer" aria-label="Primary">
+        <a href="#projects">Projects</a>
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
         <a href="#resume">Resume</a>
         <a href="#contact">Contact</a>
       </nav>
-      <button id="themeToggle" class="btn" aria-label="Toggle theme">🌓 Theme</button>
+
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">♟︎ Theme</button>
     </div>
   </header>
 
   <main id="top" class="container">
     <!-- Hero -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-card">
-        <div class="kicker">♞ Checkmate your first impression</div>
-        <h1 id="hero-title" class="title">Hi, I'm Liam Nicholson! I am a CS student focused on ML, CV, and systems.</h1>
-        <p class="lead">I build performant, human-centered solutions: from knowledge graph RAG to multi-sensor fusion in CARLA. I like clean APIs, robust infra, and turning ideas into shipped features.</p>
-        <div class="row" style="margin-top:14px">
-          <a class="btn" href="#projects">View Projects</a>
-          <a class="btn" href="#contact">Get in Touch</a>
+    <section class="hero">
+      <div class="card">
+        <h1>Checkmating Real-World Problems</h1>
+        <p class="subtitle">I'm <strong>Liam Nicholson,</strong> a Computer Science graduate student with experience in AI, computer vision, and distributed systems, holding both BS and MS degrees from George Mason University. Skilled in building end to end solutions across knowledge graphs, NLP, signal processing, and large scale data systems through industry internships and academic projects.</p>
+        <div class="badges">
+          <span class="badge">Python • Java • SQL</span>
+          <span class="badge">ML / CV • TensorFlow • OpenCV</span>
+          <span class="badge">Git • Cloud • Docker</span>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="#resume">Download Resume</a>
         </div>
       </div>
-      <div class="hero-grid" aria-hidden="true">
-        <div class="piece-card" title="King">
-          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11 7V5H9V3h2V1h2v2h2v2h-2v2h-2Zm-5 14h12v-2H6v2Zm12-4H6v-3.5A3.5 3.5 0 0 1 9.5 10H14a4 4 0 1 1 4 4v3Z"/></svg>
-        </div>
-        <div class="piece-card" title="Queen">
-          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 21h10v-2H7v2Zm10-4H7a6 6 0 0 1 10-4.47A6 6 0 0 1 17 17Zm-7.5-9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3Zm7 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3ZM12 10a2 2 0 1 1 0-4a2 2 0 0 1 0 4Z"/></svg>
-        </div>
-        <div class="piece-card" title="Bishop">
-          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 21h10v-2H7v2Zm5-8a3 3 0 1 1 0-6a3 3 0 0 1 0 6Zm0-10a2 2 0 1 1 0 4a2 2 0 0 1 0-4Zm5 14H7a5 5 0 0 1 10 0Z"/></svg>
-        </div>
-        <div class="piece-card" title="Knight">
-          <!-- corrected knight silhouette -->
-          <svg viewBox="0 0 24 24" role="img" aria-hidden="true" aria-label="Knight">
-            <path fill="currentColor" d="M19 22H5v-2h4v-5.31c-1.39-.31-2.5-1.64-2.5-3.19 0-.85.32-1.62.84-2.22l3.05-3.53c.35-.39.84-.58 1.32-.5.79.13 1.41.82 1.41 1.63V8h1.38A3.5 3.5 0 0 1 18 11.5V20h1v2z"/>
-          </svg>
-        </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about">
-      <div class="section-title">
-        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l2.09 6.26H20l-5.17 3.76L16.91 18L12 14.6 7.09 18l2.08-5.98L4 8.26h5.91L12 2Z"/></svg>
-        <h2>About</h2>
-      </div>
-      <div class="about">
-        <div class="panel">
-          <p>I’m a soon-to-be CS graduate (Aug 2025) focusing on machine learning and computer vision. Recent work includes multi-camera fusion in CARLA (0.9.15), LiDAR-RGBD alignment, and NodeRAG-style knowledge graphs. I enjoy systems problems, latency wins, and cleanly-documented repos.</p>
-          <ul>
-            <li>Interests: ML systems, perception, routing protocols, chess960</li>
-            <li>Values: Clarity, benchmarks, reproducibility</li>
-            <li>Location: Fairfax / DC area</li>
-          </ul>
-        </div>
-        <div class="panel">
-          <h3 style="margin-top:0">Highlights</h3>
-          <ul>
-            <li>Built a projection-based LiDAR→camera colorizer with occlusion-aware selection</li>
-            <li>Implemented DVR/LSR simulators; debugged convergence & link failures</li>
-            <li>Published tools for RAG over knowledge graphs (NodeRAG variant)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills -->
-    <section id="skills">
-      <div class="section-title">
-        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 3h18v2H3V3Zm2 4h14v2H5V7Zm-2 4h18v2H3v-2Zm2 4h14v2H5v-2Zm-2 4h18v2H3v-2Z"/></svg>
-        <h2>Skills</h2>
-      </div>
-      <div class="skills">
-        <div class="chip">Python • NumPy • PyTorch</div>
-        <div class="chip">OpenCV • Open3D</div>
-        <div class="chip">CARLA • ROS basics</div>
-        <div class="chip">Networking • TCP/OSPF/NAT</div>
-        <div class="chip">SQL • Relational calculus</div>
-        <div class="chip">GitHub Actions • Pages</div>
+      <div class="card" aria-hidden="true" style="display:grid; place-items:center; min-height:100%; height:100%;">
+        <svg viewBox="0 0 120 120" style="width:100%; height:100%; max-height:100%; max-width:100%;" xmlns="http://www.w3.org/2000/svg">      
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop stop-color="var(--accent)" offset="0"/>
+              <stop stop-color="var(--accent-2)" offset="1"/>
+            </linearGradient>
+          </defs>
+          <rect x="8" y="8" width="104" height="104" rx="14" fill="none" stroke="url(#g)" stroke-width="3"/>
+          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-size="128" fill="url(#g)">♞</text>
+        </svg>
       </div>
     </section>
 
     <!-- Projects -->
     <section id="projects">
-      <div class="section-title">
-        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l8 4v12l-8 4l-8-4V6l8-4Zm0 2.18L6 6.47v.06l6 3l6-3v-.06l-6-2.29ZM6 9.03V18l6 3v-8.97l-6-3Zm12 0l-6 3V21l6-3V9.03Z"/></svg>
-        <h2>Projects</h2>
-      </div>
-
-      <div class="filters" role="group" aria-label="Filter projects by tag">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="ml">ML/CV</button>
-        <button class="filter-btn" data-filter="systems">Systems</button>
-        <button class="filter-btn" data-filter="networking">Networking</button>
-      </div>
-
-      <div class="projects-grid" id="projectGrid">
-        <!-- Project Card 1 -->
-        <article class="card" data-tags="ml cv carla" tabindex="0">
-          <h3>LiDAR-RGBD Fusion in CARLA</h3>
-          <p>Projection-based fusion selecting closest-depth camera; occlusion-aware coloring; Z-forward convention.</p>
-          <div class="tags"><span class="tag">ML/CV</span><span class="tag">CARLA</span><span class="tag">Open3D</span></div>
-          <div class="row">
-            <a class="btn" href="#" aria-label="View repo for LiDAR-RGBD Fusion">Repo</a>
-            <a class="btn" href="#" aria-label="Read write-up for LiDAR-RGBD Fusion">Write-up</a>
-          </div>
+        <h2>Featured Projects</h2>
+        <div class="grid">
+          <article class="project card col-6">
+            <h3>Multi-Sensor Point Cloud Reconstruction</h3>
+            <p>Designed a Carla pipeline to capture RGB, depth, and LiDAR streams, fuse them into aligned point clouds, and export both frame-wise <code>.ply</code> data and <code>.avi</code> visualizations.</p>
+            <div class="meta">
+              <span class="chip">Python</span>
+              <span class="chip">Open3D</span>
+              <span class="chip">CARLA</span>
+              <a class="btn" href="P3_Report.pdf" target="_blank" rel="noopener">↗ Report</a>
+            </div>
+          </article>
+      
+          <article class="project card col-6">
+            <h3>Rubik's Cube State Detector</h3>
+            <p>Engineered a vision system that reconstructs a Rubik’s Cube state from video by combining ORB stitching, DBSCAN clustering, and HSV segmentation, then outputs a solvable 3D model.</p>
+            <div class="meta">
+              <span class="chip">Python</span>
+              <span class="chip">OpenCV</span>
+              <span class="chip">PyGame</span>
+              <a class="btn" href="https://www.youtube.com/watch?v=liCXZZGdP4M" target="_blank" rel="noopener">↗ Presentation</a>
+            </div>
+          </article>
+      
+          <article class="project card col-4">
+            <h3>Tyr's Glory</h3>
+            <p>Collaborated on a turn-based grand strategy game, applying OOP principles, custom data structures, and algorithms; designed map graphics and collision systems in Gimp; and built an interactive GUI for troop movement and combat.</p>
+            <div class="meta">
+                <span class="chip">C#</span>
+                <span class="chip">Godot Mono</span>
+                <span class="chip">Gimp</span>
+                <a class="btn" href="https://github.com/LWNCoding/Tyr-s-Glory" target="_blank" rel="noopener">↗ GitHub</a>
+            </div>
+          </article>
+      
+          <article class="project card col-4">
+            <h3>Chess Discord Bot</h3>
+            <p>Created a Discord bot that taps into the Lichess API to display player ratings (Bullet, Blitz, Rapid, Classical, Puzzle) and enable real-time challenges.</p>
+            <div class="meta">
+              <span class="chip">Python</span>
+              <span class="chip">Discord</span>
+              <span class="chip">Lichess API</span>
+              <a class="btn" href="https://github.com/LWNCoding/ChessDiscordBot" target="_blank" rel="noopener">↗ GitHub</a>
+            </div>
+          </article>
+      
+          <article class="project card col-4">
+            <h3>Routing Protocol Simulator</h3>
+            <p>Implemented DVR and LSR algorithms with threaded nodes exchanging updates via TCP sockets and computing optimal routes through Bellman-Ford and Dijkstra.</p>
+            <div class="meta">
+              <span class="chip">Python</span>
+              <span class="chip">Socket Programming</span>
+              <span class="chip">Routing Algorithms</span>
+              <span class="chip">Concurrency</span>
+            </div>
+          </article>
+        </div>
+      </section>
+      
+    <!-- About as a move list -->
+    <section id="about">
+        <h2>About</h2>
+        <div class="timeline">
+          <div class="move"><strong>1. e4 e5</strong> — Opened with programming fundamentals in Intro to CS (Python) and APCS-A (Java)<br><small>2017 – 2019</small></div>
+          <div class="move"><strong>2. Nf3 Nc6</strong> — Advanced with APCS-AB and a self-directed computer science course<br><small>2019 – 2020</small></div>
+          <div class="move"><strong>3. Bb5 a6</strong> — Earned a Bachelor of Science in Computer Science at George Mason University<br><small>Aug 2020 – May 2024</small></div>
+          <div class="move"><strong>4. Ba4 Nf6</strong> — Completed a Master of Science in Computer Science at George Mason University<br><small>Aug 2024 – Aug 2025</small></div>
+        </div>
+      </section>
+      
+    <!-- Skills -->
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+        <article class="card skills-card col-4">
+            <h3>Languages</h3>
+            <div class="skills-list">
+            <span class="chip">Python</span>
+            <span class="chip">Java</span>
+            <span class="chip">C/C++</span>
+            <span class="chip">SQL</span>
+            <span class="chip">Cypher</span>
+            <span class="chip">HTML</span>
+            <span class="chip">R</span>
+            <span class="chip">Assembly</span>
+            <span class="chip">Matlab</span>
+            </div>
         </article>
-
-        <!-- Project Card 2 -->
-        <article class="card" data-tags="systems rag graph" tabindex="0">
-          <h3>NodeRAG-Style Knowledge Graph RAG</h3>
-          <p>Graph-indexed retrieval with typed relations, query planning, and transparent provenance for long-context QA.</p>
-          <div class="tags"><span class="tag">Systems</span><span class="tag">RAG</span><span class="tag">Graphs</span></div>
-          <div class="row">
-            <a class="btn" href="#">Repo</a>
-            <a class="btn" href="#">Demo</a>
-          </div>
+    
+        <article class="card skills-card col-4">
+            <h3>Libraries</h3>
+            <div class="skills-list">
+            <span class="chip">Keras</span>
+            <span class="chip">TensorFlow</span>
+            <span class="chip">PyTorch</span>
+            <span class="chip">Scikit-learn</span>
+            <span class="chip">Pandas</span>
+            <span class="chip">NumPy</span>
+            <span class="chip">HuggingFace</span>
+            <span class="chip">OpenCV</span>
+            <span class="chip">NLTK</span>
+            <span class="chip">SpaCy</span>
+            <span class="chip">Gensim</span>
+            <span class="chip">Matplotlib</span>
+            <span class="chip">Seaborn</span>
+            <span class="chip">LangChain</span>
+            </div>
         </article>
-
-        <!-- Project Card 3 -->
-        <article class="card" data-tags="networking systems" tabindex="0">
-          <h3>DVR / LSR Simulators</h3>
-          <p>Distance-vector and link-state routing, failure injection, and convergence metrics with visual trace export.</p>
-          <div class="tags"><span class="tag">Networking</span><span class="tag">Systems</span></div>
-          <div class="row">
-            <a class="btn" href="#">Repo</a>
-            <a class="btn" href="#">Docs</a>
-          </div>
+    
+        <article class="card skills-card col-4">
+            <h3>Tools</h3>
+            <div class="skills-list">
+            <span class="chip">Git/GitHub</span>
+            <span class="chip">Agile</span>
+            <span class="chip">SMSS</span>
+            <span class="chip">JIRA</span>
+            <span class="chip">Azure Blob</span>
+            <span class="chip">Apache Airflow</span>
+            <span class="chip">Neo4j</span>
+            <span class="chip">LaTeX</span>
+            <span class="chip">REST APIs</span>
+            <span class="chip">JSON</span>
+            <span class="chip">STK</span>
+            </div>
         </article>
-      </div>
+        </div>
     </section>
-
+  
     <!-- Resume -->
     <section id="resume">
-      <div class="section-title">
-        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h4v2H8V8Z"/></svg>
-        <h2>Resume</h2>
-      </div>
-      <div class="resume">
-        <div class="panel">
-          <a class="btn" href="LiamNicholson_Resume.pdf" target="_blank" rel="noopener">Download Resume (PDF)</a>
-          <div class="divider"></div>
-          <h3 style="margin:0 0 6px">Quick Facts</h3>
-          <ul>
-            <li>M.S. CS — Expected Aug 2025</li>
-            <li>Focus: ML/CV, AI, systems</li>
-            <li>Location: Fairfax, VA • Open to relocation/hybrid</li>
-          </ul>
-        </div>
-        <div class="panel">
-          <h3 style="margin-top:0">Contact Cards</h3>
-          <p class="muted">Add your links below:</p>
-          <div class="row">
-            <a class="btn" href="https://github.com/LWNCoding">GitHub</a>
-            <a class="btn" href="https://www.linkedin.com/in/liam-nicholson/">LinkedIn</a>
-            <a class="btn" href="mailto:LWNCoding@gmail.com">Email</a>
-          </div>
+      <h2>Résumé</h2>
+      <div class="card" style="padding:18px">
+        <p>Download a concise one-page resume or view it in the browser.</p>
+        <div class="cta">
+          <a class="btn primary" href="LiamNicholson_Resume.pdf" download>⬇ Download PDF</a>
+          <a class="btn" href="LiamNicholson_Resume.pdf" target="_blank" rel="noopener">↗ View Online</a>
         </div>
       </div>
     </section>
 
     <!-- Contact -->
     <section id="contact">
-      <div class="section-title">
-        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm-1.4 3L12 11L5.4 7h13.2ZM4 18V8.25l8 4.75l8-4.75V18H4Z"/></svg>
-        <h2>Contact</h2>
-      </div>
-      <div class="contact">
-        <div class="panel">
-          <form id="contactForm" action="mailto:LWNCoding@gmail.com" method="post" enctype="text/plain">
-            <label>
-              Name
-              <input name="name" type="text" placeholder="Your name" required />
-            </label>
-            <label>
-              Email
-              <input name="email" type="email" placeholder="you@example.com" required />
-            </label>
-            <label>
-              Message
-              <textarea name="message" rows="5" placeholder="Let’s collaborate…" required></textarea>
-            </label>
-            <button class="btn" type="submit">Send</button>
-          </form>
-        </div>
-        <div class="panel">
-          <h3 style="margin-top:0">Open to opportunities</h3>
-          <p class="muted">I’m especially interested in roles touching ML systems, AI, or systems. If it ships and has measurable impact, I’m in.</p>
-        </div>
+      <h2>Contact</h2>
+      <div class="card" style="padding:18px">
+        <p>Best move is to reach out:</p>
+        <p>
+          <a class="btn" href="mailto:LWNCoding@gmail.com">✉ Email</a>
+          <a class="btn" href="https://github.com/LWNCoding" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/liam-nicholson/" target="_blank" rel="noopener">LinkedIn</a>
+        </p>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      <div class="row" style="justify-content: space-between">
-        <div>© <span id="year"></span> Liam Nicholson</div>
-        <div class="muted">Built with GitHub Pages • Theme: Chess</div>
-      </div>
+    <div class="container footer-grid">
+      <div>© <span id="year"></span> Liam Nicholson</div>
+      <div>Built with ♞ on GitHub Pages</div>
     </div>
   </footer>
 
   <script>
-    // Theme toggle
-    const toggleBtn = document.getElementById('themeToggle');
+    // Theme toggle with localStorage
     const root = document.documentElement;
-    const THEME_KEY = 'theme-preference';
-
-    function setTheme(theme) {
-      if (theme === 'light') {
-        root.style.colorScheme = 'light';
-        root.dataset.theme = 'light';
-      } else {
-        root.style.colorScheme = 'dark';
-        root.dataset.theme = 'dark';
-      }
-      localStorage.setItem(THEME_KEY, theme);
-    }
-    function initTheme() {
-      const saved = localStorage.getItem(THEME_KEY);
-      const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-      setTheme(saved || (prefersLight ? 'light' : 'dark'));
-    }
-    toggleBtn.addEventListener('click', () => {
-      const current = localStorage.getItem(THEME_KEY) || (root.dataset.theme || 'dark');
-      setTheme(current === 'dark' ? 'light' : 'dark');
+    const saved = localStorage.getItem('theme');
+    if(saved === 'light') root.classList.add('light');
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      root.classList.toggle('light');
+      localStorage.setItem('theme', root.classList.contains('light') ? 'light' : 'dark');
     });
-    initTheme();
-
-    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Simple project filtering
-    const grid = document.getElementById('projectGrid');
-    const filters = document.querySelectorAll('.filter-btn');
-    filters.forEach(btn => btn.addEventListener('click', () => {
-      filters.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      [...grid.children].forEach(card => {
-        if (filter === 'all') { card.style.display = ''; return; }
-        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
-        card.style.display = tags.includes(filter) ? '' : 'none';
-      });
-    }));
-
-    // Smooth scroll for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', (e) => {
-        const id = a.getAttribute('href');
-        if (id.length > 1) {
-          e.preventDefault();
-          document.querySelector(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
   </script>
 </body>
 </html>
