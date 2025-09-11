@@ -8,6 +8,8 @@ this.timelineData=[{title:'First Code in Python',description:'Began programming 
 this.init();
 }init(){this.bindEvents();
 this.updateDisplay();
+this.totalProgress=0;
+this.currentIndex=0;
 this.updateProgress();
 this.startAutoRotation();
 }bindEvents(){document.getElementById('prevBtn').addEventListener('click',()=>{this.previous();
