@@ -320,6 +320,24 @@ to{opacity:1;transform:translateY(0)}
   .footer-social{
     justify-content: center;
   }
+  
+  .download-resume-btn{
+    padding: 1.1rem 1.5rem;
+    font-size: 1.05rem;
+    min-height: 44px;
+  }
+  
+  .form-group input,
+  .form-group textarea{
+    padding: 0.9rem;
+    min-height: 44px;
+  }
+  
+  .submit-btn{
+    padding: 1.1rem 2rem;
+    font-size: 1.05rem;
+    min-height: 44px;
+  }
 }
 
 /* Extra small mobile devices */
@@ -436,6 +454,19 @@ to{opacity:1;transform:translateY(0)}
   .form-group input,
   .form-group textarea{
     font-size: 0.9rem;
-    padding: 0.6rem;
+    padding: 0.8rem;
+    min-height: 44px;
+  }
+  
+  .download-resume-btn{
+    padding: 1.2rem 1.5rem;
+    font-size: 1.1rem;
+    min-height: 44px;
+  }
+  
+  .submit-btn{
+    padding: 1.2rem 2rem;
+    font-size: 1.1rem;
+    min-height: 44px;
   }
 }
